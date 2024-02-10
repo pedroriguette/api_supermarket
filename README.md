@@ -1,0 +1,1 @@
+- use the command "pip install -r \requiments.txt" to install the projects requiments
