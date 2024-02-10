@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from project_supermarket.permissions import GlobalDefaultPermissionClass
 from categories.models import Categorie
 from categories.serializers import CategorieSerializer
 from products.models import Product
@@ -9,12 +10,12 @@ from products.serializers import ProductSerializers
 
 
 class CategoryListCreateView(generics.ListCreateAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, GlobalDefaultPermissionClass,)
     queryset = Categorie.objects.all()
     serializer_class = CategorieSerializer
 
 class CategorieRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated, GlobalDefaultPermissionClass,)
     queryset = Categorie.objects.all()
     serializer_class = CategorieSerializer
 
