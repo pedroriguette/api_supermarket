@@ -6,7 +6,7 @@ from project_supermarket.permissions import GlobalDefaultPermissionClass
 from categories.models import Categorie
 from categories.serializers import CategorieSerializer
 from products.models import Product
-from products.serializers import ProductSerializers
+from products.serializers import ProductSerializers, ProductRetrieveSerializer
 
 
 class CategoryListCreateView(generics.ListCreateAPIView):
@@ -25,19 +25,12 @@ class CategorieRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
         categorie = self.get_object() 
         #filtrar pelo id da lista de produto que está conectada ao id da categoria
         products = Product.objects.filter(categorie=categorie) 
-
         categorie_serializer = self.get_serializer(categorie)
-        # Definindo um serializador personalizado apenas para esta view
-        class ProductRetrieveSerializer(ProductSerializers):
-            class Meta(ProductSerializers.Meta):
-                fields = ['name']
-
-        products_serializer = ProductRetrieveSerializer(products, many=True)
-
+        # Convertendo os nomes dos produtos para maiúsculas antes de serializá-los
+        products_data = [{'name':product.name.capitalize()} for product in products]
+        products_serializer = ProductRetrieveSerializer(data=products_data, many=True)
+        products_serializer.is_valid()
         data = {
             'categorie': categorie_serializer.data,
             'products': products_serializer.data}
-
         return Response(data, status=status.HTTP_200_OK)
-    
-
