@@ -1,5 +1,6 @@
 from rest_framework import permissions
 
+
 class GlobalDefaultPermissionClass(permissions.BasePermission):
 
     def has_permission(self, request, view):
@@ -13,7 +14,6 @@ class GlobalDefaultPermissionClass(permissions.BasePermission):
 
         return request.user.has_perm(model_permission)
 
-
     def get_model(self, method, view):
         try:
             model_name = view.queryset.model._meta.model_name
@@ -25,13 +25,13 @@ class GlobalDefaultPermissionClass(permissions.BasePermission):
 
     def actions_sufix(self, method):
         method_action = {
-            'GET':'view',
-            'POST':'add',
-            'PUT':'change',
-            'PATCH':'change',
-            'DELETE':'DELETE',
-            'HEAD':'view',
-            'OPTIONS':'view',
+            'GET': 'view',
+            'POST': 'add',
+            'PUT': 'change',
+            'PATCH': 'change',
+            'DELETE': 'DELETE',
+            'HEAD': 'view',
+            'OPTIONS': 'view',
         }
 
         return method_action.get(method, '')

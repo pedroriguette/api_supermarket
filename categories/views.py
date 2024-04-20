@@ -1,11 +1,9 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 from project_supermarket.permissions import GlobalDefaultPermissionClass
 from categories.models import Categorie
-from categories.serializers import CategorieSerializer
+from categories.serializers import CategorieSerializer, CategorieRetrieveView
 from products.models import Product
-from products.serializers import ProductRetrieveSerializer
 
 
 class CategoryListCreateView(generics.ListCreateAPIView):
@@ -13,23 +11,29 @@ class CategoryListCreateView(generics.ListCreateAPIView):
     queryset = Categorie.objects.all()
     serializer_class = CategorieSerializer
 
+
 class CategorieRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermissionClass,)
     queryset = Categorie.objects.all()
-    serializer_class = CategorieSerializer
 
-    #reescrever o metodo get da classe
-    def get(self, request, pk): 
-        #busca o objeto de acordo com a pk enviado na requisição
-        categorie = self.get_object() 
-        #filtrar pelo id da lista de produto que está conectada ao id da categoria
-        products = Product.objects.filter(categorie=categorie) 
-        categorie_serializer = self.get_serializer(categorie)
-        # Convertendo os nomes dos produtos para maiúsculas antes de serializá-los
-        products_data = [{'name':product.name.capitalize()} for product in products]
-        products_serializer = ProductRetrieveSerializer(data=products_data, many=True)
-        products_serializer.is_valid()
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return CategorieRetrieveView
+        return CategorieRetrieveUpdateDestroyView
+
+    def get(self, request, pk):
+        categorie = self.get_object()
+        products = Product.objects.filter(categorie=categorie)
         data = {
-            'categorie': categorie_serializer.data,
-            'products': products_serializer.data}
-        return Response(data, status=status.HTTP_200_OK)
+            'categorie': categorie.name,
+            'products': products.values(),
+            'total_products': products.values().count()
+        }
+
+        serializer = CategorieRetrieveView(data=data)
+        serializer.is_valid(raise_exception=True)
+
+        return response.Response(
+            data=serializer.validated_data,
+            status=status.HTTP_200_OK
+        )
