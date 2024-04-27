@@ -73,8 +73,12 @@ WSGI_APPLICATION = 'project_supermarket.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'apisupermarket',
+        'USER': 'postgres',
+        'PASSWORD': 'pedrinpedra02',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -129,6 +133,6 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
