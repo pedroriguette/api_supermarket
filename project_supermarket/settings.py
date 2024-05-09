@@ -76,7 +76,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'apisupermarket',
         'USER': 'postgres',
-        'PASSWORD': 'pedrinpedra02',
+        'PASSWORD': 'senhadevoces',
         'HOST': 'localhost',
         'PORT': '5432',
     }
