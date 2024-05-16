@@ -1,6 +1,7 @@
 from django.db.models import Sum
 from rest_framework import generics, status, response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.filters import SearchFilter
 from project_supermarket.permissions import GlobalDefaultPermissionClass
 from brands.models import Brand
 from brands.serializers import BrandSerializers, BrandRetrieveSerializer
@@ -11,6 +12,11 @@ class BrandListCreateView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermissionClass,)
     queryset = Brand.objects.all()
     serializer_class = BrandSerializers
+
+    filter_backends = [SearchFilter]
+    search_fields = ["name"]
+
+    ordering = ['id']
 
 
 class BrandRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):

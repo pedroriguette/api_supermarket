@@ -29,7 +29,7 @@ class GlobalDefaultPermissionClass(permissions.BasePermission):
             'POST': 'add',
             'PUT': 'change',
             'PATCH': 'change',
-            'DELETE': 'DELETE',
+            'DELETE': 'delete',
             'HEAD': 'view',
             'OPTIONS': 'view',
         }

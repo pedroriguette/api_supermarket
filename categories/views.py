@@ -6,7 +6,7 @@ from categories.serializers import CategorieSerializer, CategorieRetrieveView
 from products.models import Product
 
 
-class CategoryListCreateView(generics.ListCreateAPIView):
+class CategorieListCreateView(generics.ListCreateAPIView):
     permission_classes = (IsAuthenticated, GlobalDefaultPermissionClass,)
     queryset = Categorie.objects.all()
     serializer_class = CategorieSerializer
@@ -19,7 +19,7 @@ class CategorieRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return CategorieRetrieveView
-        return CategorieRetrieveUpdateDestroyView
+        return CategorieSerializer
 
     def get(self, request, pk):
         categorie = self.get_object()
