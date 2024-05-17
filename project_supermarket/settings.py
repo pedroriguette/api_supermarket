@@ -75,17 +75,8 @@ WSGI_APPLICATION = 'project_supermarket.wsgi.application'
 
 DATABASES = {
     'default': {
-<<<<<<< HEAD
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-=======
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'apisupermarket',
-        'USER': 'postgres',
-        'PASSWORD': 'senhadevoces',
-        'HOST': 'localhost',
-        'PORT': '5432',
->>>>>>> 06ef12620eb78dfc31d7849a7dcd9a9e17d57de7
     }
 }
 
